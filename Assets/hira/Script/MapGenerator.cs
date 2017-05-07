@@ -5,9 +5,12 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     private int[] m_map;
+    private int[] m_backMap;
 
     private const int m_minLength = 50;
     private const int m_maxLength = 100;
+
+    private Vector3 m_schoolPos;
 
     [SerializeField]
     GameObject m_bill;
@@ -29,11 +32,11 @@ public class MapGenerator : MonoBehaviour
 
     private Vector3 m_move = new Vector3(-7,-2,0);
 
-
-    private int GetMapLength()
+    public Vector3 GetSchoolPos()
     {
-        return m_map.Length;
+        return new Vector3(m_schoolPos.x, m_schoolPos.y, m_schoolPos.z);
     }
+
 
     private int GetRandomIdx()
     {
@@ -66,6 +69,12 @@ public class MapGenerator : MonoBehaviour
         m_map = new int[length];
     }
 
+    private void SetBackMapLength()
+    {
+        int length = Random.Range(m_minLength, m_maxLength);
+        m_backMap = new int[length];
+    }
+
     private void SetMap()
     {
         SetMapLength();
@@ -94,9 +103,38 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    private void SetBackMap()
+    {
+        SetBackMapLength();
+
+        int preIdx = 0;
+
+        for (int i = 0; i < m_backMap.Length; i++)
+        {
+            int idx = GetRandomIdx();
+
+            if (preIdx != 0 && idx == preIdx)
+            {
+                if (Random.Range(0f, 1.0f) < 0.5f)
+                {
+                    idx = GetRandomIdx();
+                }
+            }
+
+            m_backMap[i] = idx;
+            preIdx = idx;
+
+            if (idx != 0)
+            {
+                i += Random.Range(idx + 1, 4 + idx);
+            }
+        }
+    }
+
     private void GenerateMap()
     {
         SetMap();
+        SetBackMap();
 
         {
             GameObject backGround = Instantiate(m_backGround) as GameObject;
@@ -118,7 +156,7 @@ public class MapGenerator : MonoBehaviour
 
             Vector3 pos = floor.transform.position;
 
-            pos.y += m_move.y*2 - 2.26f; 
+            pos.y += m_move.y*2 - 0.26f; 
 
             floor.transform.position = pos;
         }
@@ -130,6 +168,7 @@ public class MapGenerator : MonoBehaviour
         {
             Vector3 pos = transform.position + new Vector3(-10, 0, 0) + m_move;
             Instantiate(m_school, pos, Quaternion.identity);
+            m_schoolPos = pos;
         }
 
         
@@ -154,9 +193,33 @@ public class MapGenerator : MonoBehaviour
                 Instantiate(m_tower, pos, Quaternion.identity);
             }
         }
+
+        for (int i = 0; i < m_backMap.Length; i++)
+        {
+            if (m_backMap[i] == 1)
+            {
+                Vector3 pos = transform.position +new Vector3(-i, 0, 0) + m_move;
+                pos.x -= 25;
+                Instantiate(m_bill, pos, Quaternion.identity);
+            }
+
+            else if (m_backMap[i] == 2)
+            {
+                Vector3 pos = transform.position + new Vector3(-i, -0.02f, 0) + m_move;
+                pos.x -= 25;
+                Instantiate(m_house, pos, Quaternion.identity);
+            }
+
+            else if (m_backMap[i] == 3)
+            {
+                Vector3 pos = transform.position + new Vector3(-i, 2.25f, 0) + m_move;
+                pos.x -= 25;
+                Instantiate(m_tower, pos, Quaternion.identity);
+            }
+        }
     }
 
-    void Start()
+    void Awake()
     {
         GenerateMap();
 	}
