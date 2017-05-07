@@ -11,8 +11,6 @@ public class hitoMove : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        m_power = new Vector2(0.0f,10.0f);
-
         rigit = GetComponent<Rigidbody2D>();
     }
 
@@ -23,7 +21,7 @@ public class hitoMove : MonoBehaviour {
         Collider2D colider = GetComponent<Collider2D>();
 
         // 力が弱まったら、あたりの仕方を変える
-        if (rigit.velocity.x > -9.0f || transform.position.y < -6.0f)
+        if (rigit.velocity.x > -9.0f || transform.position.y < -5.5f)
         {
             colider.isTrigger = false;
         }
