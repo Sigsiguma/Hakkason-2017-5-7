@@ -23,7 +23,7 @@ public class hitoMove : MonoBehaviour {
         Collider2D colider = GetComponent<Collider2D>();
 
         // 力が弱まったら、あたりの仕方を変える
-        if (rigit.velocity.x > -9.0f || transform.position.y < -5.0f)
+        if (rigit.velocity.x > -9.0f || transform.position.y < -6.0f)
         {
             colider.isTrigger = false;
         }
@@ -33,11 +33,5 @@ public class hitoMove : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         rigit.velocity *= 0.7f;
-    }
-
-    // 当たった時の処理(遅い時)
-    private void OnCollisionEnter(Collision collision)
-    {
-        //rigit.velocity *= 0.0f;
     }
 }
