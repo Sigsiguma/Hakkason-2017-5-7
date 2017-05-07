@@ -4,31 +4,68 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
-    private int[] m_map = { 0, 0, 1, 0, 2, 0, 1, 0, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, 0, 2, 0, 0, 1 };
+    private int[] m_map;
 
     private const int m_minLength = 50;
     private const int m_maxLength = 100;
 
-    private const int m_maxBillNum = 2;
+    [SerializeField]
+    GameObject m_bill;
 
     [SerializeField]
-    GameObject m_bill1;
+    GameObject m_house;
 
     [SerializeField]
-    GameObject m_bill2;
+    GameObject m_tower;
+
+    [SerializeField]
+    GameObject m_school;
+
+    [SerializeField]
+    GameObject m_backGround;
+
+    [SerializeField]
+    GameObject m_floor;
+
 
     [SerializeField]
     private Vector3 m_move;
+
+
+    private int GetMapLength()
+    {
+        return m_map.Length;
+    }
+
+    private int GetRandomIdx()
+    {
+        if(Random.Range(0.0f, 1.0f) < 0.4)
+        {
+            return 0;
+        }
+
+        float rand = Random.Range(0.0f, 1.0f);
+
+        if (rand < 0.1)
+        {
+            return 3;
+        }
+
+        else if (rand < 0.4)
+        {
+            return 2;
+        }
+
+        else
+        {
+            return 1;
+        }
+    }
 
     private void SetMapLength()
     {
         int length = Random.Range(m_minLength, m_maxLength);
         m_map = new int[length];
-    }
-
-    private int GetRandomMapIdx()
-    {
-        return Random.Range(1, m_maxBillNum);
     }
 
     private void SetMap()
@@ -39,13 +76,13 @@ public class MapGenerator : MonoBehaviour
 
         for (int i = 0; i < m_map.Length; i++)
         {
-            int idx = Random.Range(0, m_maxBillNum + 1);
+            int idx = GetRandomIdx();
 
             if (preIdx != 0 && idx == preIdx)
             {
                 if(Random.Range(0f,1.0f) < 0.5f)
                 {
-                    idx = Random.Range(1, m_maxBillNum + 1);
+                    idx = GetRandomIdx();
                 }
             }
 
@@ -54,73 +91,75 @@ public class MapGenerator : MonoBehaviour
 
             if (idx != 0)
             {
-                i += Random.Range(1, 3);
+                i += Random.Range(idx + 1, 4 + idx);
             }
         }
-    }
-
-    private string GetMapIdxs()
-    {
-        string s = "{";
-
-        for(int i = 0;i < m_map.Length;i++)
-        {
-            s += m_map[i];
-
-            if(i < m_map.Length - 1)
-            {
-                s += ",";
-            }
-        }
-
-        s += "}";
-
-        return s;
     }
 
     private void GenerateMap()
     {
         SetMap();
 
-        Debug.Log(GetMapIdxs());
+        {
+            GameObject backGround = Instantiate(m_backGround) as GameObject;
+            Vector3 scale = backGround.transform.localScale;
+            scale.x *= 500;
+            backGround.transform.localScale = scale;
+
+            Vector3 pos = backGround.transform.position;
+            pos.x += scale.x / 10;
+            backGround.transform.position = pos;
+        }
+
+        {
+            GameObject floor = Instantiate(m_floor) as GameObject;
+            Vector3 scale = floor.transform.localScale;
+            scale.x *= 500;
+            scale.y *= 1.5f;
+            floor.transform.localScale = scale;
+
+            Vector3 pos = floor.transform.position;
+            pos.x += scale.x / 10;
+            pos.y += m_move.y*2 - 0.26f; 
+            floor.transform.position = pos;
+        }
+
+
+
+        {
+            Vector3 pos = transform.position + new Vector3(-10, 0, 0) + m_move;
+            Instantiate(m_school, pos, Quaternion.identity);
+        }
 
         for (int i = 0; i < m_map.Length; i++)
         {
             if (m_map[i] == 1)
             {
                 Vector3 pos = transform.position + new Vector3(i, 0, 0) + m_move;
-
-                Instantiate(m_bill1, pos, Quaternion.identity);
+                Instantiate(m_bill, pos, Quaternion.identity);
             }
 
             else if (m_map[i] == 2)
             {
-                Vector3 pos = transform.position + new Vector3(i, 0.5f, 0) + m_move;
+                Vector3 pos = transform.position + new Vector3(i, -0.02f, 0) + m_move;
+                Instantiate(m_house, pos, Quaternion.identity);
+            }
 
-                Instantiate(m_bill2, pos, Quaternion.identity);
+            else if (m_map[i] == 3)
+            {
+                Vector3 pos = transform.position + new Vector3(i, 2.25f, 0) + m_move;
+                Instantiate(m_tower, pos, Quaternion.identity);
             }
         }
     }
 
-    private void ReGenerateMap()
-    {
-
-
-
-        GenerateMap();
-    }
-
-
-    void Start ()
+    void Start()
     {
         GenerateMap();
 	}
 	
-	void Update ()
+	void Update()
     {
-		if(Input.GetKeyDown(KeyCode.R))
-        {
-            ReGenerateMap();
-        }
+
 	}
 }
