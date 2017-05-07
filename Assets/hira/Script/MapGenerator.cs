@@ -120,7 +120,7 @@ public class MapGenerator : MonoBehaviour
 
             Vector3 pos = floor.transform.position;
             pos.x += scale.x / 10;
-            pos.y += m_move.y*2 - 0.26f; 
+            pos.y += m_move.y*2 - 5.26f; 
             floor.transform.position = pos;
         }
 

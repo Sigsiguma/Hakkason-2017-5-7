@@ -23,7 +23,7 @@ public class hitoMove : MonoBehaviour {
         Collider2D colider = GetComponent<Collider2D>();
 
         // 力が弱まったら、あたりの仕方を変える
-        if (rigit.velocity.x > -9.0f)
+        if (rigit.velocity.x > -9.0f || transform.position.y < -5.0f)
         {
             colider.isTrigger = false;
         }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour {
     //推したときの位置
-    Vector3 startPos = Vector3.zero;
+    public Vector3 startPos = Vector3.zero;
     //離したときの位置
     Vector3 endPos = Vector3.zero;
 
