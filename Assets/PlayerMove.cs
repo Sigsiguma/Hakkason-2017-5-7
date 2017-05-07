@@ -56,11 +56,6 @@ public class PlayerMove : MonoBehaviour {
                 //速度の設定
                 spd.x = (endPos.x - startPos.x) * -2.0f / 60.0f;
                 spd.y = (endPos.y - startPos.y) * -2.0f / 60.0f;
-
-                if(spd.x < spd.y)
-                {
-                    spd.y = spd.x * 0.75f;
-                }
                 
 
                 //後ろに飛んで行きそうなら
@@ -84,11 +79,21 @@ public class PlayerMove : MonoBehaviour {
         }
         else
         {
-            spd.y -= rb.gravityScale;
+            if(transform.position.y <= 0 && spd.y <= 0)
+            {
+                spd.y *= -0.8f;
+                if(spd.y < 0.4f)
+                {
+                    spd.y = 0.0f;
+                }
+            }
 
             rb.velocity = spd;
 
-            spd *= 0.98f;
+            spd.y -= rb.gravityScale;
+
+
+            spd *= 0.99f;
         }
     }
 }

@@ -32,6 +32,10 @@ public class ControllBer : MonoBehaviour {
         {
             _slider.value = _slider.minValue;
         }
+        if(PlayerMove.checkMove == true)
+        {
+            _slider.value = _slider.maxValue;
+        }
 
         cnt++;
 	}
