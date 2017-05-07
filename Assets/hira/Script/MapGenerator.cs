@@ -9,6 +9,8 @@ public class MapGenerator : MonoBehaviour
     private const int m_minLength = 50;
     private const int m_maxLength = 100;
 
+    private Vector3 m_schoolPos;
+
     [SerializeField]
     GameObject m_bill;
 
@@ -29,6 +31,10 @@ public class MapGenerator : MonoBehaviour
 
     private Vector3 m_move = new Vector3(-7,-2,0);
 
+    public Vector3 GetSchoolPos()
+    {
+        return new Vector3(m_schoolPos.x, m_schoolPos.y, m_schoolPos.z);
+    }
 
     private int GetMapLength()
     {
@@ -118,7 +124,7 @@ public class MapGenerator : MonoBehaviour
 
             Vector3 pos = floor.transform.position;
 
-            pos.y += m_move.y*2 - 2.26f; 
+            pos.y += m_move.y*2 - 0.26f; 
 
             floor.transform.position = pos;
         }
@@ -130,6 +136,7 @@ public class MapGenerator : MonoBehaviour
         {
             Vector3 pos = transform.position + new Vector3(-10, 0, 0) + m_move;
             Instantiate(m_school, pos, Quaternion.identity);
+            m_schoolPos = pos;
         }
 
         
@@ -156,7 +163,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         GenerateMap();
 	}
