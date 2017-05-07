@@ -17,32 +17,29 @@ public class PlayerMove : MonoBehaviour {
 
     Rigidbody2D rb;
 
+
     // Use this for initialization
-	void Start () {
+    void Start() {
         checkMove = false;
 
         rb = GetComponent<Rigidbody2D>();
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
+    }
+
+    // Update is called once per frame
+    void Update() {
         //if(transform.position.y < 0)
         //{
         //    transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         //}
 
-        if (checkMove == false)
-        {
+        if (checkMove == false) {
             //ボタンが押されたとき
-            if (Input.GetMouseButtonDown(0))
-            {
+            if (Input.GetMouseButtonDown(0)) {
                 startPos = Input.mousePosition;
                 checkMove = false;
             }
             //ボタンを離したとき
-            if (Input.GetMouseButtonUp(0))
-            {
+            if (Input.GetMouseButtonUp(0)) {
                 endPos = Input.mousePosition;
                 checkMove = true;
 
@@ -50,14 +47,15 @@ public class PlayerMove : MonoBehaviour {
 
                 spd /= 30;
 
-                if(spd.x > -4.0f)
-                {
+                gamemain.GameManager.Instance.state = gamemain.GameState.Playing;
+                utility.sound.SoundManager.SE.Play("Fly", 1.0f, true);
+
+                if (spd.x > -4.0f) {
                     checkMove = false;
                 }
             }
         }
-        if (checkMove == true)
-        {
+        if (checkMove == true) {
             rb.velocity = spd;
 
             // transform.Translate(spd);

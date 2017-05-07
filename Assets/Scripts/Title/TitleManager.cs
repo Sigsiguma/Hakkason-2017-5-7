@@ -22,7 +22,7 @@ namespace title {
                 if (!isChangedScene) {
                     isChangedScene = true;
                     SoundManager.SE.Play("decide", 3.0f);
-                    Fade.FadeIn(1.0f, () => SceneManager.LoadScene("GameMain"));
+                    Fade.FadeIn(1.0f, () => SceneManager.LoadScene("usshi"));
                 }
             }
         }

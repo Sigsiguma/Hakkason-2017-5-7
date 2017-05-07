@@ -22,7 +22,10 @@ namespace gamemain {
             this.UpdateAsObservable()
                 .Where(_ => Input.GetMouseButtonDown(0))
                 .First()
-                .Subscribe(_ => utility.fade.Fade.FadeIn(1.0f, () => SceneManager.LoadScene("GameMain")));
+                .Subscribe(_ => {
+                    utility.fade.Fade.FadeIn(1.0f, () => SceneManager.LoadScene("usshi"));
+                    utility.sound.SoundManager.SE.Play("decide");
+                });
         }
     }
 }

@@ -11,24 +11,24 @@ public class changeImage : MonoBehaviour {
 
     bool colliderFlg;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         renderer = GetComponent<SpriteRenderer>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 
 
     // 当たった時の処理
-    private void OnTriggerEnter2D(Collider2D other)
-    {
+    private void OnTriggerEnter2D(Collider2D other) {
 
-        if (other.isTrigger)
-        {
+        if (other.isTrigger) {
             renderer.sprite = img;
+
+            utility.sound.SoundManager.SE.Play("explosion", 1.0f, true);
 
             Collider2D coll = GetComponent<Collider2D>();
 
