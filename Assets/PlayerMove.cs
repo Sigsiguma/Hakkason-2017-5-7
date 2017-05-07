@@ -27,10 +27,10 @@ public class PlayerMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(transform.position.y < 0)
-        {
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        }
+        //if(transform.position.y < 0)
+        //{
+        //    transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        //}
 
         if (checkMove == false)
         {
@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour {
 
                 spd /= 30;
 
-                if(spd.x < 0)
+                if(spd.x > -4.0f)
                 {
                     checkMove = false;
                 }
@@ -63,8 +63,15 @@ public class PlayerMove : MonoBehaviour {
             // transform.Translate(spd);
             //transform.Translate(0, (-9.8f / 60.0f / 10.0f), 0);
 
+            //rb.AddForce(spd, ForceMode2D.Impulse);
 
             spd *= 0.98f;
+
+            Collider2D colider = GetComponent<Collider2D>();
+
+            colider.isTrigger = true;
+
+            checkMove = false;
         }
     }
 }
