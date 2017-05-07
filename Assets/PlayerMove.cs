@@ -94,6 +94,22 @@ public class PlayerMove : MonoBehaviour {
 
             transform.position = pos2;
         }
+
+        if (transform.position.y > 50)
+        {
+            Vector3 vel = rb.velocity;
+            vel.y *= -1;
+            rb.velocity = vel;
+        }
+
+        if (transform.position.x < -150)
+        {
+            Vector3 vel = rb.velocity;
+            vel.x *= -1;
+            rb.velocity = vel;
+        }
     }
+
+   
 
 }
