@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMover : MonoBehaviour
 {
-    private const float m_moveSpeed = 0.1f;
+    private const float m_moveSpeed = 0.4f;
 
     private void Move()
     {

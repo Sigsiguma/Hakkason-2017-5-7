@@ -21,6 +21,12 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     GameObject m_school;
 
+    [SerializeField]
+    GameObject m_backGround;
+
+    [SerializeField]
+    GameObject m_floor;
+
 
     [SerializeField]
     private Vector3 m_move;
@@ -33,6 +39,11 @@ public class MapGenerator : MonoBehaviour
 
     private int GetRandomIdx()
     {
+        if(Random.Range(0.0f, 1.0f) < 0.4)
+        {
+            return 0;
+        }
+
         float rand = Random.Range(0.0f, 1.0f);
 
         if (rand < 0.1)
@@ -90,6 +101,32 @@ public class MapGenerator : MonoBehaviour
         SetMap();
 
         {
+            GameObject backGround = Instantiate(m_backGround) as GameObject;
+            Vector3 scale = backGround.transform.localScale;
+            scale.x *= 500;
+            backGround.transform.localScale = scale;
+
+            Vector3 pos = backGround.transform.position;
+            pos.x += scale.x / 10;
+            backGround.transform.position = pos;
+        }
+
+        {
+            GameObject floor = Instantiate(m_floor) as GameObject;
+            Vector3 scale = floor.transform.localScale;
+            scale.x *= 500;
+            scale.y *= 1.5f;
+            floor.transform.localScale = scale;
+
+            Vector3 pos = floor.transform.position;
+            pos.x += scale.x / 10;
+            pos.y += m_move.y*2 - 0.26f; 
+            floor.transform.position = pos;
+        }
+
+
+
+        {
             Vector3 pos = transform.position + new Vector3(-10, 0, 0) + m_move;
             Instantiate(m_school, pos, Quaternion.identity);
         }
@@ -104,7 +141,7 @@ public class MapGenerator : MonoBehaviour
 
             else if (m_map[i] == 2)
             {
-                Vector3 pos = transform.position + new Vector3(i, 0, 0) + m_move;
+                Vector3 pos = transform.position + new Vector3(i, -0.02f, 0) + m_move;
                 Instantiate(m_house, pos, Quaternion.identity);
             }
 
