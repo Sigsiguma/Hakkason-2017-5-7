@@ -9,7 +9,7 @@ public class MapGenerator : MonoBehaviour {
     private const int m_minLength = 50;
     private const int m_maxLength = 100;
 
-    private Vector3 m_schoolPos;
+    public Vector3 m_schoolPos;
 
     [SerializeField]
     GameObject m_bill;
