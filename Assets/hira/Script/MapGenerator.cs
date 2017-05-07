@@ -27,9 +27,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     GameObject m_floor;
 
-
-    [SerializeField]
-    private Vector3 m_move;
+    private Vector3 m_move = new Vector3(-7,-2,0);
 
 
     private int GetMapLength()
@@ -103,11 +101,11 @@ public class MapGenerator : MonoBehaviour
         {
             GameObject backGround = Instantiate(m_backGround) as GameObject;
             Vector3 scale = backGround.transform.localScale;
-            scale.x *= 500;
+            scale.x *= 1000;
+            scale.y *= 10;
             backGround.transform.localScale = scale;
 
             Vector3 pos = backGround.transform.position;
-            pos.x += scale.x / 10;
             backGround.transform.position = pos;
         }
 
@@ -119,17 +117,20 @@ public class MapGenerator : MonoBehaviour
             floor.transform.localScale = scale;
 
             Vector3 pos = floor.transform.position;
-            pos.x += scale.x / 10;
             pos.y += m_move.y*2 - 0.26f; 
             floor.transform.position = pos;
         }
 
-
+        Vector3 move = m_move;
+        move.x -= m_map.Length;
+        m_move = move;
 
         {
             Vector3 pos = transform.position + new Vector3(-10, 0, 0) + m_move;
             Instantiate(m_school, pos, Quaternion.identity);
         }
+
+        
 
         for (int i = 0; i < m_map.Length; i++)
         {
